@@ -124,3 +124,47 @@ star.remove();
 },300);
 
 // ///////////////////////////////////////
+
+const track = document.querySelector(".carousel-track");
+const next = document.querySelector(".right");
+const prev = document.querySelector(".left");
+
+const moveCard = () => {
+    const first = track.firstElementChild;
+
+    track.style.transition = "transform .45s ease";
+    track.style.transform = "translateX(-260px)";
+
+    track.addEventListener("transitionend", function handler(){
+
+        track.appendChild(first);
+
+        track.style.transition = "none";
+        track.style.transform = "translateX(0)";
+
+        track.removeEventListener("transitionend", handler);
+
+    });
+
+};
+
+const moveBack = () => {
+
+    const last = track.lastElementChild;
+
+    track.insertBefore(last, track.firstElementChild);
+
+    track.style.transition = "none";
+    track.style.transform = "translateX(-260px)";
+
+    requestAnimationFrame(()=>{
+
+        track.style.transition = "transform .45s ease";
+        track.style.transform = "translateX(0)";
+
+    });
+
+};
+
+next.addEventListener("click", moveCard);
+prev.addEventListener("click", moveBack);

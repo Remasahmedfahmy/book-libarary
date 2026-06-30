@@ -316,86 +316,118 @@ inset 0 0 30px #ffffff;
  
 }
 #library-section{
-
     display:none;
-
     position:fixed;
     inset:0;
-
     flex-direction:column;
-
-    justify-content:center;
-
+    justify-content:flex-start;
     gap:50px;
-
     overflow:hidden;
+    padding-top:160px;
 }
-.row{
-    display:flex;
-    gap:40px;
-    width:max-content;
-    align-items:flex-start;
-}
-.row1{
-
-    animation:moveRight 45s linear infinite;
-}
-
-.row2{
-
-    animation:moveLeft 40s linear infinite;
-}
-
-.row3{
-
-    animation:moveRight 50s linear infinite;
-}
-@keyframes moveRight{
-
-    from{
-        transform:translateX(-30%);
-    }
-
-    to{
-        transform:translateX(30%);
-    }
-
-}
-@keyframes moveLeft{
-
-    from{
-        transform:translateX(30%);
-    }
-
-    to{
-        transform:translateX(-30%);
-    }
-
-}
-
 .library-title{
-
     position:absolute;
     top:20px;
-
     color:white;
-
     font-size:55px;
+    text-shadow:
+    0 0 10px #ffffff,
+    0 0 25px #c7d2ff,
+    0 0 50px #8fa8ff;
+}
+.carousel{
+    width:95%;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
+}
 
-text-shadow:
-0 0 10px #ffffff,
-0 0 25px #c7d2ff,
-0 0 50px #8fa8ff;
+.carousel-container{
+
+    width:88%;
+
+    overflow:hidden;
+
+    padding:20px 0;
 
 }
-.book-card{
-    width:220px;
+.carousel-track{
+    display:flex;
+    align-items:flex-start;
+    gap:40px;
+
+    transition:transform .5s ease;
+}
+.arrow{
+    width:70px;
+    height:70px;
+
+    border:none;
+    border-radius:50%;
+
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(10px);
+
+    color:#fff;
+    font-size:32px;
+
+    cursor:pointer;
 
     display:flex;
-    flex-direction:column;
+    justify-content:center;
     align-items:center;
 
     flex-shrink:0;
+
+    transition:.3s;
+}
+
+.arrow:hover{
+    transform:scale(1.1);
+
+    box-shadow:
+    0 0 20px #c7d2ff,
+    0 0 40px #8fa8ff;
+}
+.book-card{
+    width:220px;
+    flex-shrink:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.book-card img{
+
+    width:220px;
+
+    height:320px;
+
+    object-fit:cover;
+
+    border-radius:22px;
+
+    transition:.35s;
+
+}
+
+.book-card:hover img{
+
+    transform:translateY(-8px) scale(1.05);
+
+}
+
+.book-card h2{
+
+    margin-top:18px;
+
+    color:white;
+
+    text-align:center;
+
+    font-size:32px;
+
 }
 .show-books .book-card{
     animation:bookFall 1.2s ease forwards;
@@ -407,8 +439,8 @@ text-shadow:
 }
 .book-card img{
 
-    width:180px;
-    height:270px;
+    width:210px;
+    height:315px;
 
     object-fit:cover;
 
