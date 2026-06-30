@@ -86,6 +86,17 @@ setTimeout(()=>{
     portal.style.display="none";
 
     document.getElementById("library-section").style.display="flex";
+    const allBooks = document.querySelectorAll(".book-card");
+
+allBooks.forEach((book,index)=>{
+
+    setTimeout(()=>{
+
+        book.classList.add("show");
+
+    },index*80);
+
+});
     document.getElementById("library-section")
         .classList.add("show-books");
 
@@ -122,49 +133,81 @@ star.remove();
 },4000);
 
 },300);
+//  ////////////////////////////////////////////////
+const booksList = document.querySelector(".books-list");
+const upBtn = document.querySelector(".up");
+const downBtn = document.querySelector(".down");
+// //////////////////////////////////////////////////////////
+const filterBtns = document.querySelectorAll(".categories button");
+const books = document.querySelectorAll(".book-card");
 
-// ///////////////////////////////////////
+filterBtns.forEach(btn=>{
 
-const track = document.querySelector(".carousel-track");
-const next = document.querySelector(".right");
-const prev = document.querySelector(".left");
+    btn.addEventListener("click",()=>{
 
-const moveCard = () => {
-    const first = track.firstElementChild;
+        document.querySelector(".categories .active")
+        ?.classList.remove("active");
 
-    track.style.transition = "transform .45s ease";
-    track.style.transform = "translateX(-260px)";
+        btn.classList.add("active");
 
-    track.addEventListener("transitionend", function handler(){
+        const category = btn.textContent.trim();
 
-        track.appendChild(first);
+        books.forEach(book=>{
 
-        track.style.transition = "none";
-        track.style.transform = "translateX(0)";
+            if(category==="الكل" ||
+               book.dataset.category===category){
 
-        track.removeEventListener("transitionend", handler);
+                book.style.display="flex";
+
+                setTimeout(()=>{
+                    book.classList.add("show");
+                },10);
+
+            }else{
+
+                book.classList.remove("show");
+
+                setTimeout(()=>{
+                    book.style.display="none";
+                },500);
+
+            }
+
+        });
 
     });
 
+});
+
+// //////////////////////////////////////////////////////////////////
+const booksWindow = document.querySelector(".books-window");
+
+let currentY = 0;
+
+downBtn.onclick = () => {
+
+    const maxScroll = booksList.offsetHeight - booksWindow.offsetHeight;
+
+    if (currentY < maxScroll) {
+
+        currentY += 320;
+
+        if (currentY > maxScroll)
+            currentY = maxScroll;
+
+        booksList.style.transform = `translateY(-${currentY}px)`;
+    }
 };
 
-const moveBack = () => {
+upBtn.onclick = () => {
 
-    const last = track.lastElementChild;
+    if (currentY > 0) {
 
-    track.insertBefore(last, track.firstElementChild);
+        currentY -= 320;
 
-    track.style.transition = "none";
-    track.style.transform = "translateX(-260px)";
+        if (currentY < 0)
+            currentY = 0;
 
-    requestAnimationFrame(()=>{
-
-        track.style.transition = "transform .45s ease";
-        track.style.transform = "translateX(0)";
-
-    });
-
+        booksList.style.transform = `translateY(-${currentY}px)`;
+    }
 };
-
-next.addEventListener("click", moveCard);
-prev.addEventListener("click", moveBack);
