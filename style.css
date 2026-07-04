@@ -365,24 +365,14 @@ inset 0 0 30px #ffffff;
 }
 
 .books-window{
-    width:1200px;
-    height:560px;
+    width:900px;
     overflow:hidden;
     position:relative;
 }
-
 .books-list{
-    display:grid;
-    grid-template-columns:repeat(7,150px);
-    grid-auto-rows:300px;
-
-    justify-content:center;
-    align-content:start;
-
+    display:flex;
     gap:25px;
-
-    transition:transform .6s ease;
-
+    transition:transform .8s ease;
     will-change:transform;
 }
 .book-card{
@@ -487,4 +477,19 @@ box-shadow:
 
     background:#7d9bff;
 
+}
+.prev,
+.next{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:100;
+}
+
+.prev{
+    left:-80px;
+}
+
+.next{
+    right:-80px;
 }
