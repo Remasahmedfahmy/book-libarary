@@ -135,7 +135,8 @@ star.remove();
 },300);
 // //////////////////////////////////////////////////////////
 const filterBtns = document.querySelectorAll(".categories button");
-const books = document.querySelectorAll(".book-card");
+
+let currentCategory = "الكل";
 
 filterBtns.forEach(btn=>{
 
@@ -146,107 +147,86 @@ filterBtns.forEach(btn=>{
 
         btn.classList.add("active");
 
-        const category = btn.textContent.trim();
+        currentCategory = btn.textContent.trim();
 
-        books.forEach(book=>{
+        currentPage = 0;
 
-            if(category==="الكل" ||
-               book.dataset.category===category){
-
-                book.style.display="flex";
-
-                setTimeout(()=>{
-                    book.classList.add("show");
-                },10);
-
-            }else{
-
-                book.classList.remove("show");
-
-                setTimeout(()=>{
-                    book.style.display="none";
-                },500);
-
-            }
-
-        });
+        showPage(currentPage);
 
     });
-    currentPage = 0;
-    updateSlider();
 
 });
-
 // //////////////////////////////////////////////////////////////////
-const booksList = document.querySelector(".books-list");
+const allBooks = [...document.querySelectorAll(".book-card")];
 
 const nextBtn = document.querySelector(".next");
 const prevBtn = document.querySelector(".prev");
 
 let currentPage = 0;
-
 const booksPerPage = 5;
 
-function getVisibleBooks() {
+function showPage(page){
 
-    return [...document.querySelectorAll(".book-card")]
-           .filter(book =>
-           book.style.display !== "none");
+    const filteredBooks = allBooks.filter(book =>
+
+        currentCategory === "الكل" ||
+        book.dataset.category === currentCategory
+
+    );
+
+    allBooks.forEach(book=>{
+
+        book.style.display="none";
+
+    });
+
+    const start = page * booksPerPage;
+    const end = start + booksPerPage;
+
+    filteredBooks.slice(start,end).forEach((book,index)=>{
+
+        book.style.display="flex";
+
+        book.classList.remove("show");
+
+        setTimeout(()=>{
+
+            book.classList.add("show");
+
+        },index*100);
+
+    });
+
 }
 
-function updateSlider(){
-
-    const visibleBooks = getVisibleBooks();
-
-    const maxPage =
-        Math.ceil(visibleBooks.length / booksPerPage) - 1;
-
-    if(currentPage > maxPage)
-        currentPage = maxPage;
-
-    const moveAmount =
-        currentPage * (150 + 25) * booksPerPage;
-
-    booksList.style.transform =
-        `translateX(-${moveAmount}px)`;
-}
+showPage(0);
 
 nextBtn.addEventListener("click",()=>{
 
-    const visibleBooks = getVisibleBooks();
-
     const maxPage =
-        Math.ceil(visibleBooks.length / booksPerPage) - 1;
+    Math.ceil(allBooks.length / booksPerPage)-1;
 
-    if(currentPage < maxPage){
+    currentPage++;
 
-        currentPage++;
-
-    }else{
-
+    if(currentPage > maxPage){
         currentPage = 0;
     }
 
-    updateSlider();
+    showPage(currentPage);
 
 });
 
 prevBtn.addEventListener("click",()=>{
 
-    const visibleBooks = getVisibleBooks();
-
     const maxPage =
-        Math.ceil(visibleBooks.length / booksPerPage) - 1;
+    Math.ceil(allBooks.length / booksPerPage)-1;
 
-    if(currentPage > 0){
+    currentPage--;
 
-        currentPage--;
-
-    }else{
-
+    if(currentPage < 0){
         currentPage = maxPage;
     }
 
-    updateSlider();
+    showPage(currentPage);
 
 });
